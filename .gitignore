@@ -12,6 +12,7 @@
 
 ### JetBrains template
 .idea/
+target/
 cmake-build-debug/
 cmake-build-release/
 *.iws
