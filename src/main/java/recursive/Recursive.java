@@ -94,7 +94,10 @@ public class Recursive {
      * @return O maior valor (caso exista, cc null)
      */
     public static Double max(double[] array, int index, Double value) {
-        return (index < array.length) ? max(array, index + 1, value == null || array[index] > value ? array[index] : value) : value;
+        if (index >= array.length)
+            return value;
+
+        return max(array, index + 1, value == null || array[index] > value ? array[index] : value);
     }
 
     /**
@@ -106,7 +109,10 @@ public class Recursive {
      * @return O mínimo valor (caso exista, cc null)
      */
     public static Double min(double[] array, int index, Double value) {
-        return index < array.length ? min(array, index + 1, value == null || array[index] < value ? array[index] : value) : value;
+        if (index >= array.length)
+            return value;
+
+        return min(array, index + 1, value == null || array[index] < value ? array[index] : value);
     }
 
     /**

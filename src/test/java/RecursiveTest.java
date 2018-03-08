@@ -60,13 +60,13 @@ public class RecursiveTest {
     @Test
     public void max() {
         assertEquals(10, Recursive.max(new double[]{1,9,3,10}, 0, null), 0);
-        assertNull(null, Recursive.max(new double[]{}, 0, null));
+        assertNull(null, Recursive.max(new double[]{}, 0, 5.0));
     }
 
     @Test
     public void min() {
         assertEquals(1, Recursive.min(new double[]{1,9,3,10}, 0, null), 0);
-        assertNull(null, Recursive.min(new double[]{}, 0, null));
+        assertNull(null, Recursive.min(new double[]{}, 0, 5.0));
     }
 
     @Test
