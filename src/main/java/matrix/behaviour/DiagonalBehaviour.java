@@ -14,7 +14,7 @@ public class DiagonalBehaviour implements Behaviour {
      * @param <T>        Tipo da matriz
      */
     private static <T> void iterDiagonal(T[][] collection, Consumer<T> consumer, Coordinate start) {
-        if (collection.length > 0 && collection.length != collection[0].length)
+        if (collection.length != collection[0].length)
             throw new IllegalArgumentException("Arrays must have equal sizes.");
 
         if (start.x < collection.length) {

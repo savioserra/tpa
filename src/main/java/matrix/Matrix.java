@@ -14,7 +14,8 @@ public class Matrix<T> {
     }
 
     public void forEach(Consumer<T> consumer) {
-        behaviour.process(collection, consumer);
+        if (collection.length > 0)
+            behaviour.process(collection, consumer);
     }
 
     public void setBehaviour(Behaviour behaviour) {

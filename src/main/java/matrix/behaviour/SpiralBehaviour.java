@@ -30,13 +30,15 @@ public class SpiralBehaviour implements Behaviour {
                 if (current.x == end.x && current.y < end.y)
                     iterBorders(collection, consumer, start, new Coordinate(current.x, current.y + 1), end);
 
-                // Lateral inferior
-                else if (current.y == end.y && current.x > start.x)
-                    iterBorders(collection, consumer, start, new Coordinate(current.x - 1, current.y), end);
+                if (collection[start.y].length > 1) {
+                    // Lateral inferior
+                    if (current.y == end.y && current.x > start.x)
+                        iterBorders(collection, consumer, start, new Coordinate(current.x - 1, current.y), end);
 
-                // Lateral esquerda
-                else if (current.x == start.x && current.y > start.y)
-                    iterBorders(collection, consumer, start, new Coordinate(current.x, current.y - 1), end);
+                    // Lateral esquerda
+                    else if (current.x == start.x && current.y > start.y)
+                        iterBorders(collection, consumer, start, new Coordinate(current.x, current.y - 1), end);
+                }
             }
         }
     }
