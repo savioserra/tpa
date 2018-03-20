@@ -1,7 +1,9 @@
 package matrix.behaviour;
 
+import matrix.Matrix;
+
 import java.util.function.Consumer;
 
 public interface Behaviour {
-    <T> void process(T[][] collection, Consumer<T> consumer);
+    <T> void process(Matrix<T> matrix, Consumer<T> consumer);
 }

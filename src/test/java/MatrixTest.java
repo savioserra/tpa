@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.junit.Assert.*;
 
@@ -16,7 +17,6 @@ public class MatrixTest {
         Behaviour diagonal = new DiagonalBehaviour();
 
         ArrayList<String> normalCase = new ArrayList<>(Arrays.asList("a", "g", "m", "s", "y"));
-        ArrayList<String> output = new ArrayList<>();
 
         Matrix<String> emptyCollection = new Matrix<>(new String[][]{
                 // empty
@@ -42,6 +42,8 @@ public class MatrixTest {
             assertEquals(e.getClass(), IllegalArgumentException.class);
         }
 
+        ArrayList<String> output = new ArrayList<>();
+
         emptyCollection.forEach(output::add);
         assertEquals(new ArrayList<String>(), output);
 
@@ -52,30 +54,41 @@ public class MatrixTest {
     @Test
     public void iterSpiral() {
         Behaviour spiral = new SpiralBehaviour();
+        ArrayList<String> output;
 
-        Matrix<String> collection = new Matrix<>(new String[][]{
-                {"a", "b", "c", "d",},
-                {"f", "g", "h", "i",},
+        Matrix<String> collectionOne = new Matrix<>(new String[][]{
+                {"a", "b", "c"},
+                {"f", "g", "h"},
         }, spiral);
 
-        Matrix<String> caseCollection = new Matrix<>(new String[][]{
+        Matrix<String> collectionTwo = new Matrix<>(new String[][]{
                 {"a"},
                 {"f"},
                 {"g"},
         }, spiral);
 
-        Matrix<String> caseTwoCollection = new Matrix<>(new String[][]{
+        Matrix<String> collectionThree = new Matrix<>(new String[][]{
                 {"a"}
         }, spiral);
 
-        Matrix<String> caseThreeCollection = new Matrix<>(new String[][]{
+        Matrix<String> collectionFour = new Matrix<>(new String[][]{
                 // empty
         }, spiral);
 
-        Matrix<String> emptyCollection = new Matrix<>(new String[][]{}, spiral);
-        //collection.forEach(System.out::println);
-        //caseCollection.forEach(System.out::println);
-        //caseTwoCollection.forEach(System.out::println);
-        caseThreeCollection.forEach(System.out::println);
+        output = new ArrayList<>();
+        collectionOne.forEach(output::add);
+        assertEquals(new ArrayList<>(Arrays.asList("a", "b", "c", "h", "g", "f")), output);
+
+        output = new ArrayList<>();
+        collectionTwo.forEach(output::add);
+        assertEquals(new ArrayList<>(Arrays.asList("a", "f", "g")), output);
+
+        output = new ArrayList<>();
+        collectionThree.forEach(output::add);
+        assertEquals(new ArrayList<>(Collections.singletonList("a")), output);
+
+        output = new ArrayList<>();
+        collectionFour.forEach(output::add);
+        assertEquals(new ArrayList<String>(), output);
     }
 }
