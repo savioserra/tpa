@@ -3,6 +3,7 @@ import dictionary.engines.DefaultEngine;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -48,5 +49,19 @@ public class DictionaryTest {
 
         dictionary.remove("valor");
         assertNull(dictionary.get("valor"));
+    }
+
+    @Test
+    public void forEach() throws IOException {
+        Dictionary<Integer, Integer> dictionary = new Dictionary<>(100, new DefaultEngine<>());
+
+        dictionary.add(1, 1);
+        dictionary.add(2, 2);
+        dictionary.add(3, 3);
+
+        AtomicReference<Integer> soma = new AtomicReference<>(0);
+        dictionary.forEach(i -> soma.updateAndGet(value -> value + i));
+
+        assertEquals(6, soma.get().intValue());
     }
 }
