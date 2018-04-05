@@ -9,10 +9,10 @@ public class DiagonalBehaviour implements Behaviour {
     /**
      * Itera pela diagonal principal de uma matriz quadrada a partir de uma posição start.
      *
-     * @param matrix Matriz
-     * @param consumer   Função {@link Consumer} que consome os elementos {@link T}
-     * @param start      Posição inicial da matriz ou offset
-     * @param <T>        Tipo da matriz
+     * @param matrix   Matriz
+     * @param consumer Função {@link Consumer} que consome os elementos {@link T}
+     * @param start    Posição inicial da matriz ou offset
+     * @param <T>      Tipo da matriz
      */
     private static <T> void iterDiagonal(Matrix<T> matrix, Consumer<T> consumer, Coordinate start) {
         if (matrix.getLineCount() != matrix.getColumnCount())
