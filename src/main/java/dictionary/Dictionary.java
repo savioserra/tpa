@@ -2,6 +2,7 @@ package dictionary;
 
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.function.Consumer;
 
 public class Dictionary<TKey, TValue> {
     private LinkedList<DictNode<TKey, TValue>>[] listArrays;
@@ -80,5 +81,11 @@ public class Dictionary<TKey, TValue> {
         }
 
         return nodeValue;
+    }
+
+    public void forEach(Consumer<TValue> consumer) {
+        for (LinkedList<DictNode<TKey, TValue>> array : listArrays)
+            for (DictNode<TKey, TValue> node : array)
+                consumer.accept(node.getValue());
     }
 }

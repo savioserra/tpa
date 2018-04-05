@@ -1,9 +1,11 @@
 import dictionary.Dictionary;
+import dictionary.engines.DefaultEngine;
 import org.junit.Test;
 
 import java.io.IOException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class DictionaryTest {
 
@@ -39,7 +41,7 @@ public class DictionaryTest {
 
     @Test
     public void remove() throws IOException {
-        Dictionary<String, Integer> dictionary = new Dictionary<>(100);
+        Dictionary<String, Integer> dictionary = new Dictionary<>(100, new DefaultEngine<>());
 
         dictionary.add("valor", 1794);
         assertEquals(1794, (int) dictionary.get("valor"));
