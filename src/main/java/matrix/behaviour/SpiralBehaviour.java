@@ -9,12 +9,12 @@ public class SpiralBehaviour implements Behaviour {
     /**
      * Itera pelas bordas da matriz fornecida.
      *
-     * @param matrix Matriz
-     * @param consumer   Função {@link Consumer} que consome os elementos {@link T}
-     * @param start      Posição de início do intervalo
-     * @param end        Posição de fim do intervalo
-     * @param current    Posição atual da iteração
-     * @param <T>        Tipo da matriz
+     * @param matrix   Matriz
+     * @param consumer Função {@link Consumer} que consome os elementos {@link T}
+     * @param start    Posição de início do intervalo
+     * @param end      Posição de fim do intervalo
+     * @param current  Posição atual da iteração
+     * @param <T>      Tipo da matriz
      */
     private static <T> void iterBorders(Matrix<T> matrix, Consumer<T> consumer, Coordinate start, Coordinate current, Coordinate end) {
         if (!start.equals(current)) {
@@ -36,7 +36,7 @@ public class SpiralBehaviour implements Behaviour {
                     if (current.y == end.y && current.x > start.x)
                         iterBorders(matrix, consumer, start, new Coordinate(current.x - 1, current.y), end);
 
-                    // Lateral esquerda
+                        // Lateral esquerda
                     else if (current.x == start.x && current.y > start.y)
                         iterBorders(matrix, consumer, start, new Coordinate(current.x, current.y - 1), end);
                 }

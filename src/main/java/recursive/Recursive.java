@@ -1,7 +1,5 @@
 package recursive;
 
-import java.util.ArrayList;
-
 /**
  * A classe {@link Recursive} provê um estudo sobre recursividade.
  */
