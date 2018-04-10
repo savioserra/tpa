@@ -23,7 +23,8 @@ class DictNode<K, V> implements Node<K, V> {
     }
 
     public V setValue(V value) {
-        return this.value = value;
+        this.value = value;
+        return this.value;
     }
 
     public int getHashCode() {

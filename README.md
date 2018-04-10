@@ -1,5 +1,5 @@
 ### Tópicos Avançados de Programação
-[![Build Status](https://travis-ci.org/Niddhogur/tpa.svg?branch=master)](https://travis-ci.org/Niddhogur/tpa) [![codecov](https://codecov.io/gh/Niddhogur/tpa/branch/master/graph/badge.svg)](https://codecov.io/gh/Niddhogur/tpa) <br>
+[![Build Status](https://travis-ci.org/Niddhogur/tpa.svg?branch=master)](https://travis-ci.org/Niddhogur/tpa) [![cov](https://sonarcloud.io/api/project_badges/measure?project=org.niddho%3Atpa&metric=coverage)](https://sonarcloud.io/dashboard?id=org.niddho%3Atpa) <br>
 
 Este repositório tem o intuito de servir como coletânea de algoritmos e estudos relacionados à disciplina de Tópicos Avançados de Programação.
 

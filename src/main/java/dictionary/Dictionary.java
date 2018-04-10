@@ -17,7 +17,8 @@ import java.util.function.Consumer;
 public class Dictionary<K, V> extends Map<K, V> {
     private LinkedList<Node<K, V>>[] listArrays;
     private HashEngine<K> hashEngine;
-    private int currentSize, maxSize;
+    private int currentSize;
+    private int maxSize;
 
     /**
      * Inicializa um novo dicionário especificando o tamanho inicial do vetor e a {@link HashEngine} a ser utilizada.
@@ -86,12 +87,15 @@ public class Dictionary<K, V> extends Map<K, V> {
     }
 
     public V get(K key) {
-        int hashPos = compressHash(resolveHash(key)), nodePosition = findNode(key, listArrays[hashPos]);
+        int hashPos = compressHash(resolveHash(key));
+        int nodePosition = findNode(key, listArrays[hashPos]);
         return nodePosition != -1 ? listArrays[hashPos].get(nodePosition).getValue() : null;
     }
 
     public V pop(K key) {
-        int hashPos = compressHash(resolveHash(key)), nodePosition = findNode(key, listArrays[hashPos]);
+        int hashPos = compressHash(resolveHash(key));
+        int nodePosition = findNode(key, listArrays[hashPos]);
+
         V nodeValue = null;
 
         if (nodePosition != -1) {
@@ -110,7 +114,7 @@ public class Dictionary<K, V> extends Map<K, V> {
     }
 
     public void resize(int newSize) {
-
+        // TODO
     }
 
     public int size() {
