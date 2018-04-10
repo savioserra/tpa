@@ -31,6 +31,7 @@ public class Dictionary<K, V> extends Map<K, V> {
         listArrays = new LinkedList[size];
         hashEngine = engine;
         maxSize = size;
+        currentSize = 0;
 
         for (int i = 0; i < listArrays.length; i++)
             listArrays[i] = new LinkedList<>();
@@ -46,6 +47,7 @@ public class Dictionary<K, V> extends Map<K, V> {
         listArrays = new LinkedList[size];
         hashEngine = EngineFactory.createDefault();
         maxSize = size;
+        currentSize = 0;
 
         for (int i = 0; i < listArrays.length; i++)
             listArrays[i] = new LinkedList<>();
@@ -55,11 +57,11 @@ public class Dictionary<K, V> extends Map<K, V> {
         return hashEngine.getHash(key);
     }
 
-    protected int compressHash(int hashCode) {
+    protected synchronized int compressHash(int hashCode) {
         return hashCode % maxSize;
     }
 
-    protected int findNode(K key, LinkedList<Node<K, V>> linkedList) {
+    protected synchronized int findNode(K key, LinkedList<Node<K, V>> linkedList) {
         for (int i = 0; i < linkedList.size(); i++) {
             if (key.equals(linkedList.get(i).getKey()))
                 return i;
@@ -67,7 +69,7 @@ public class Dictionary<K, V> extends Map<K, V> {
         return -1;
     }
 
-    public V add(K key, V value) {
+    public synchronized V add(K key, V value) {
         int hashCode = resolveHash(key);
         int compressedHash = compressHash(hashCode);
         int nodePosition = findNode(key, listArrays[compressedHash]);
@@ -86,13 +88,13 @@ public class Dictionary<K, V> extends Map<K, V> {
         return temporaryNode.getValue();
     }
 
-    public V get(K key) {
+    public synchronized V get(K key) {
         int hashPos = compressHash(resolveHash(key));
         int nodePosition = findNode(key, listArrays[hashPos]);
         return nodePosition != -1 ? listArrays[hashPos].get(nodePosition).getValue() : null;
     }
 
-    public V pop(K key) {
+    public synchronized V pop(K key) {
         int hashPos = compressHash(resolveHash(key));
         int nodePosition = findNode(key, listArrays[hashPos]);
 
@@ -107,17 +109,26 @@ public class Dictionary<K, V> extends Map<K, V> {
         return nodeValue;
     }
 
-    public void forEach(Consumer<V> consumer) {
+    public synchronized void forEach(Consumer<V> consumer) {
         for (LinkedList<Node<K, V>> array : listArrays)
             for (Node<K, V> node : array)
                 consumer.accept(node.getValue());
     }
 
-    public void resize(int newSize) {
-        // TODO
+    public synchronized void resize(int newSize) {
+        LinkedList[] newArray = new LinkedList[newSize];
+        for (int i = 0; i < newArray.length; i++)
+            newArray[i] = new LinkedList<Node<K, V>>();
+
+        for (LinkedList<Node<K, V>> array : listArrays)
+            for (Node<K, V> node : array)
+                newArray[(node.getHashCode()) % newSize].add(node);
+
+        maxSize = newSize;
+        listArrays = newArray;
     }
 
-    public int size() {
+    public synchronized int size() {
         return currentSize;
     }
 }

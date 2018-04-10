@@ -12,7 +12,7 @@ import static org.junit.Assert.assertNull;
 public class DictionaryTest {
 
     @Test
-    public void getSize() {
+    public void size() {
         Dictionary<String, Integer> dictionary = new Dictionary<>(100);
         assertEquals(0, dictionary.size());
     }
@@ -42,7 +42,7 @@ public class DictionaryTest {
     }
 
     @Test
-    public void remove() {
+    public void pop() {
         Dictionary<String, Integer> dictionary = new Dictionary<>(100, new DefaultEngine<>());
 
         dictionary.add("valor", 1794);
@@ -64,5 +64,22 @@ public class DictionaryTest {
         dictionary.forEach(i -> soma.updateAndGet(value -> value + i));
 
         assertEquals(6, soma.get().intValue());
+    }
+
+    @Test
+    public void resize() {
+        Dictionary<Integer, Integer> dictionary = new Dictionary<>(4, new DefaultEngine<>());
+
+        dictionary.add(1, 1);
+        dictionary.add(2, 2);
+        dictionary.add(3, 3);
+        dictionary.add(4, 1);
+        dictionary.add(5, 2);
+        dictionary.add(6, 3);
+        assertEquals(6, dictionary.size());
+
+        dictionary.resize(20);
+        assertEquals(6, dictionary.size());
+        assertEquals(3, dictionary.get(6).intValue());
     }
 }
