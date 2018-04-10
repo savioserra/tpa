@@ -1,5 +1,6 @@
 package dictionary;
 
+
 import dictionary.engine.EngineFactory;
 import dictionary.engine.HashEngine;
 import dictionary.structures.Map;
