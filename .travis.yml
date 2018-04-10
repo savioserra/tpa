@@ -1,7 +1,11 @@
 language: java
 jdk: oraclejdk8
 
-script: mvn cobertura:cobertura
+addons:
+  sonarcloud:
+    organization: niddhogur-github
+    token:
+      secure: $SONAR_TOKEN
 
-after_success:
-  - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+script:
+  - mvn clean install sonar:sonar

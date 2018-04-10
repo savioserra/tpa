@@ -5,6 +5,9 @@ package recursive;
  */
 public class Recursive {
 
+    private Recursive() {
+    }
+
     /**
      * Soma os valores de um {@code double[]}.
      *
@@ -136,12 +139,4 @@ public class Recursive {
 
         return toBinary(value / 2) + Integer.toString(value % 2);
     }
-
-    /*public static <T> ArrayList<ArrayList<T>> permute(ArrayList<ArrayList<T>> resultingArray, ArrayList<T> values) {
-        if (values.isEmpty())
-            return resultingArray;
-
-        for (int i = 0; i < resultingArray.get(0).size(); i++)
-            resultingArray.add(new ArrayList<T>());
-    }*/
 }
