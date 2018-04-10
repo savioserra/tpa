@@ -1,6 +1,4 @@
-package dictionary.engines;
-
-import dictionary.HashEngine;
+package dictionary.engine;
 
 import java.io.IOException;
 
@@ -11,12 +9,19 @@ public class DefaultEngine<T> extends HashEngine<T> {
     }
 
     @Override
-    protected int applyHashFunction(T t) throws IOException {
+    protected int applyHashFunction(T t) {
         int hashCode = 0;
-        byte[] stream = toBytesStream(t);
+        byte[] stream;
+
+        try {
+            stream = toBytesStream(t);
+        } catch (IOException e) {
+            stream = new byte[]{1};
+        }
 
         for (byte aByte : stream)
             hashCode ^= (hashCode << 5) + (hashCode >> 2) + aByte;
+
         return Math.abs(hashCode);
     }
 }

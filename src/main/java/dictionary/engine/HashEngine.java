@@ -1,4 +1,4 @@
-package dictionary;
+package dictionary.engine;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -9,7 +9,7 @@ public abstract class HashEngine<T> {
     protected HashEngine() {
     }
 
-    public int getHash(T key) throws IOException {
+    public int getHash(T key) {
         return applyHashFunction(key);
     }
 
@@ -24,5 +24,5 @@ public abstract class HashEngine<T> {
         }
     }
 
-    protected abstract int applyHashFunction(T key) throws IOException;
+    protected abstract int applyHashFunction(T key);
 }

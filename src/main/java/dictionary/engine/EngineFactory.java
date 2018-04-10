@@ -1,6 +1,4 @@
-package dictionary;
-
-import dictionary.engines.DefaultEngine;
+package dictionary.engine;
 
 public class EngineFactory {
     public static <T> HashEngine<T> createDefault() {

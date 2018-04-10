@@ -1,8 +1,9 @@
 import dictionary.Dictionary;
-import dictionary.engines.DefaultEngine;
+import dictionary.engine.DefaultEngine;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.Assert.assertEquals;
@@ -13,11 +14,11 @@ public class DictionaryTest {
     @Test
     public void getSize() {
         Dictionary<String, Integer> dictionary = new Dictionary<>(100);
-        assertEquals(0, dictionary.lenght());
+        assertEquals(0, dictionary.size());
     }
 
     @Test
-    public void add() throws IOException {
+    public void add() {
         Dictionary<String, Integer> dictionary = new Dictionary<>(100);
 
         dictionary.add("0", 1);
@@ -28,7 +29,7 @@ public class DictionaryTest {
     }
 
     @Test
-    public void get() throws IOException {
+    public void get() {
         Dictionary<String, Integer> dictionary = new Dictionary<>(100);
 
         dictionary.add("0", 1);
@@ -41,18 +42,18 @@ public class DictionaryTest {
     }
 
     @Test
-    public void remove() throws IOException {
+    public void remove() {
         Dictionary<String, Integer> dictionary = new Dictionary<>(100, new DefaultEngine<>());
 
         dictionary.add("valor", 1794);
         assertEquals(1794, (int) dictionary.get("valor"));
 
-        dictionary.remove("valor");
+        dictionary.pop("valor");
         assertNull(dictionary.get("valor"));
     }
 
     @Test
-    public void forEach() throws IOException {
+    public void forEach() {
         Dictionary<Integer, Integer> dictionary = new Dictionary<>(100, new DefaultEngine<>());
 
         dictionary.add(1, 1);

@@ -1,24 +1,32 @@
 package dictionary;
 
 
-class DictNode<TKey, TValue> {
-    private TKey key;
-    private TValue value;
+import dictionary.structures.Node;
 
-    DictNode(TKey key, TValue value) {
+class DictNode<K, V> implements Node<K, V> {
+    private K key;
+    private V value;
+    private int hashCode;
+
+    DictNode(K key, V value, int hashCode) {
         this.key = key;
         this.value = value;
+        this.hashCode = hashCode;
     }
 
-    public TKey getKey() {
+    public K getKey() {
         return key;
     }
 
-    public TValue getValue() {
+    public V getValue() {
         return value;
     }
 
-    public void setValue(TValue value) {
-        this.value = value;
+    public V setValue(V value) {
+        return this.value = value;
+    }
+
+    public int getHashCode() {
+        return hashCode;
     }
 }
