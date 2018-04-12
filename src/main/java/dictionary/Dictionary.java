@@ -16,9 +16,9 @@ import java.util.function.Consumer;
  * @param <V> Tipo do objeto valor
  */
 public class Dictionary<K, V> extends Map<K, V> {
-    protected static int DEFAULT_RESIZE_FACTOR = 2;
-    protected static double DEFAULT_RESIZE_THRESHOLD = 0.75;
-    protected static int DEFAULT_LIST_SIZE_THRESHOLD = 2;
+    protected static final int DEFAULT_RESIZE_FACTOR = 2;
+    protected static final double DEFAULT_RESIZE_THRESHOLD = 0.75;
+    protected static final int DEFAULT_LIST_SIZE_THRESHOLD = 2;
 
     private LinkedList<Node<K, V>>[] listsArray;
     private HashEngine<K> hashEngine;
@@ -73,7 +73,7 @@ public class Dictionary<K, V> extends Map<K, V> {
     }
 
     public synchronized V add(K key, V value) {
-        if (currentSize / (internalArraySize * DEFAULT_LIST_SIZE_THRESHOLD) >= DEFAULT_RESIZE_THRESHOLD)
+        if ((double) currentSize / (internalArraySize * DEFAULT_LIST_SIZE_THRESHOLD) >= DEFAULT_RESIZE_THRESHOLD)
             resize(internalArraySize * DEFAULT_RESIZE_FACTOR);
 
         int hashCode = resolveHash(key);
