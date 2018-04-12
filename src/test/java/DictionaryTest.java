@@ -17,13 +17,19 @@ public class DictionaryTest {
 
     @Test
     public void add() {
-        Dictionary<String, Integer> dictionary = new Dictionary<>(100);
+        Dictionary<String, Integer> dictionary = new Dictionary<>(4);
 
-        dictionary.add("0", 1);
-        assertEquals(1, (int) dictionary.get("0"));
+        dictionary.add("0", 0);
+        assertEquals(0, (int) dictionary.get("0"));
 
-        dictionary.add("0", 2);
-        assertEquals(2, (int) dictionary.get("0"));
+        dictionary.add("1", 1);
+        assertEquals(1, (int) dictionary.get("1"));
+
+        dictionary.add("2", 2); // resize() ocorre aqui
+        assertEquals(2, (int) dictionary.get("2"));
+
+        dictionary.add("3", 3); // resize() ocorre aqui
+        assertEquals(3, (int) dictionary.get("3"));
     }
 
     @Test
