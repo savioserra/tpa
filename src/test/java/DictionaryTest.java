@@ -2,8 +2,6 @@ import dictionary.Dictionary;
 import dictionary.engine.DefaultEngine;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.util.Collections;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.Assert.assertEquals;
