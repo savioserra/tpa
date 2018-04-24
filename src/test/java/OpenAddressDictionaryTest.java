@@ -26,10 +26,12 @@ public class OpenAddressDictionaryTest {
         assertEquals(1, (int) dictionary.get("1"));
 
         dictionary.add("1", 2);
-        assertEquals(2, (int) dictionary.get("2"));
+        assertEquals(2, (int) dictionary.get("1"));
 
         dictionary.add("3", 3);
         assertEquals(3, (int) dictionary.get("3"));
+
+        assertNull(dictionary.get("AAAAAAA"));
     }
 
     @Test
