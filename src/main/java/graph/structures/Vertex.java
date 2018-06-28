@@ -4,12 +4,17 @@ package graph.structures;
 public class Vertex<V> {
     private int pos;
     private String label;
-    private V value;
+    private V data;
 
-    public Vertex(int id, String label, V value) {
+    public Vertex(int id, String label, V data) {
         this.pos = id;
         this.label = label;
-        this.value = value;
+        this.data = data;
+    }
+
+    public Vertex(int pos, String label) {
+        this.pos = pos;
+        this.label = label;
     }
 
     public int getPos() {
@@ -20,11 +25,11 @@ public class Vertex<V> {
         return label;
     }
 
-    public V getValue() {
-        return value;
+    public V getData() {
+        return data;
     }
 
-    public void setValue(V value) {
-        this.value = value;
+    public void setData(V data) {
+        this.data = data;
     }
 }
