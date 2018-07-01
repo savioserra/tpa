@@ -1,4 +1,4 @@
-package graph.structures;
+package graph.shared;
 
 
 public class Edge<V, E> {
@@ -16,6 +16,12 @@ public class Edge<V, E> {
         this.label = label;
         this.origin = origin;
         this.data = data;
+        this.destination = destination;
+    }
+
+    public Edge(String label, Vertex<V> origin, Vertex<V> destination) {
+        this.label = label;
+        this.origin = origin;
         this.destination = destination;
     }
 

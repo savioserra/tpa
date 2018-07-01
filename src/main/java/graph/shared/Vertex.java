@@ -1,4 +1,4 @@
-package graph.structures;
+package graph.shared;
 
 
 public class Vertex<V> {
