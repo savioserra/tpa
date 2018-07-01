@@ -32,7 +32,7 @@ public interface Graph<VertexDataType, EdgeDataType> {
     /**
      * Returns an array storing the labels of the end vertices of edge e.
      */
-    String[] endVertices(String edgeLabel);
+    List<String> endVertices(String edgeLabel);
 
     /**
      * Tests whether vertices v and w are adjacent.

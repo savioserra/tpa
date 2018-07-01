@@ -15,23 +15,11 @@ public abstract class GraphMatrix<V, E> implements Graph<V, E> {
     private int verticesIdCounter;
 
     @SuppressWarnings("unchecked")
-    protected GraphMatrix(int dimensionSize) {
-        matrix = new Edge[dimensionSize][dimensionSize];
+    protected GraphMatrix() {
+        matrix = new Edge[10][10];
         vertices = new LinkedList<>();
         edges = new LinkedList<>();
         verticesIdCounter = 0;
-    }
-
-    protected LinkedList<Vertex<V>> getVertices() {
-        return vertices;
-    }
-
-    protected LinkedList<Edge<V, E>> getEdges() {
-        return edges;
-    }
-
-    protected Edge<V, E>[][] getMatrix() {
-        return matrix;
     }
 
     @Override
@@ -99,10 +87,18 @@ public abstract class GraphMatrix<V, E> implements Graph<V, E> {
     }
 
     @Override
-    public String[] endVertices(String edgeLabel) {
+    public List<String> endVertices(String edgeLabel) {
         Edge<V, E> edge = findEdgeByLabel(edgeLabel);
 
-        return (edge != null) ? new String[]{edge.getOrigin().getLabel(), edge.getDestination().getLabel()} : null;
+        if (edge != null) {
+            LinkedList<String> vertices = new LinkedList<>();
+
+            vertices.add(edge.getOrigin().getLabel());
+            vertices.add(edge.getDestination().getLabel());
+
+            return vertices;
+        }
+        return null;
     }
 
     @Override
@@ -119,6 +115,9 @@ public abstract class GraphMatrix<V, E> implements Graph<V, E> {
         Vertex<V> local = findVertexByLabel(vertexLabel);
 
         if (local == null) {
+            if (getVertices().size() / getMatrix().length >= 0.75f)
+                resize();
+
             local = new Vertex<>(createVertexIndex(), vertexLabel, vertexData);
             getVertices().add(local);
         } else {
@@ -159,28 +158,6 @@ public abstract class GraphMatrix<V, E> implements Graph<V, E> {
         return null;
     }
 
-    protected Vertex<V> findVertexByLabel(String vertexLabel) {
-        for (Vertex<V> vertex : getVertices()) {
-            if (vertex != null && vertex.getLabel().equals(vertexLabel))
-                return vertex;
-        }
-        return null;
-    }
-
-    protected Edge<V, E> findEdgeByLabel(String edgeLabel) {
-        for (Edge<V, E> edge : getEdges()) {
-            if (edge != null && edge.getLabel().equals(edgeLabel))
-                return edge;
-        }
-        return null;
-    }
-
-    protected abstract Edge<V, E> findEdgeByVertices(String vertexOrigin, String vertexDestination);
-
-    protected int createVertexIndex() {
-        return verticesIdCounter++;
-    }
-
     @Override
     public Edge<V, E> insertEdge(String edgeLabel, String vertexLabelOrigin, String vertexLabelDestination, E data) throws Exception {
         Vertex<V> vertexOrigin = findVertexByLabel(vertexLabelOrigin);
@@ -212,4 +189,44 @@ public abstract class GraphMatrix<V, E> implements Graph<V, E> {
     protected abstract void InsertMatrizEdge(Edge<V, E> edge);
 
     protected abstract void RemoveMatrizEdge(Edge<V, E> edge);
+
+    protected abstract Edge<V, E> findEdgeByVertices(String vertexOrigin, String vertexDestination);
+
+    protected Vertex<V> findVertexByLabel(String vertexLabel) {
+        for (Vertex<V> vertex : getVertices()) {
+            if (vertex != null && vertex.getLabel().equals(vertexLabel))
+                return vertex;
+        }
+        return null;
+    }
+
+    protected Edge<V, E> findEdgeByLabel(String edgeLabel) {
+        for (Edge<V, E> edge : getEdges()) {
+            if (edge != null && edge.getLabel().equals(edgeLabel))
+                return edge;
+        }
+        return null;
+    }
+
+    protected int createVertexIndex() {
+        return verticesIdCounter++;
+    }
+
+    protected LinkedList<Vertex<V>> getVertices() {
+        return vertices;
+    }
+
+    protected LinkedList<Edge<V, E>> getEdges() {
+        return edges;
+    }
+
+    protected Edge<V, E>[][] getMatrix() {
+        return matrix;
+    }
+
+    @SuppressWarnings("unchecked")
+    private void resize() {
+        int newSize = (int) (getMatrix().length * 1.5);
+        matrix = new Edge[newSize][newSize];
+    }
 }

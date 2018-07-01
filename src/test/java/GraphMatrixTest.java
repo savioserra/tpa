@@ -1,13 +1,12 @@
 import graph.representations.Matrix.UndirectedGraphMatrix;
+import graph.shared.Graph;
 import org.junit.Test;
-
-import java.util.Arrays;
 
 public class GraphMatrixTest {
 
     @Test
     public void Constructor() throws Exception {
-        UndirectedGraphMatrix<String, String> graph = new UndirectedGraphMatrix<>(64);
+        Graph<String, String> graph = new UndirectedGraphMatrix<>();
 
         graph.insertVertex("A", null);
         graph.insertVertex("B", null);
@@ -18,17 +17,9 @@ public class GraphMatrixTest {
         graph.insertEdge("e3", "B", "C", null);
         graph.insertEdge("e4", "C", "B", null);
 
-        System.out.println(graph.areAdjacent("A", "B"));
-        System.out.println(graph.incomingEdges("A"));
-        System.out.println(graph.outgoingEdges("A"));
+        graph.insertVertex("D", null);
+        graph.insertEdge("a1", "D", "A", null);
 
-        System.out.println(Arrays.toString(graph.endVertices("e1")));
-
-        graph.removeVertex("A");
-        graph.removeVertex("B");
-
-        System.out.println(graph.vertices());
-        System.out.println(graph.edges());
-        System.out.println(Arrays.toString(graph.endVertices("e1")));
+        System.out.println(graph);
     }
 }

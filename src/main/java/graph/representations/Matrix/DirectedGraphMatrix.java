@@ -2,9 +2,11 @@ package graph.representations.Matrix;
 
 import graph.shared.Edge;
 
+import java.util.List;
+
 public class DirectedGraphMatrix<V, E> extends GraphMatrix<V, E> {
-    public DirectedGraphMatrix(int dimensionSize) {
-        super(dimensionSize);
+    public DirectedGraphMatrix() {
+        super();
     }
 
     @Override
@@ -24,5 +26,16 @@ public class DirectedGraphMatrix<V, E> extends GraphMatrix<V, E> {
     @Override
     protected void RemoveMatrizEdge(Edge<V, E> edge) {
         getMatrix()[edge.getOrigin().getPos()][edge.getDestination().getPos()] = null;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder buffer = new StringBuilder();
+        for (Edge<V, E> edge : getEdges()) {
+            List<String> vertices = endVertices(edge.getLabel());
+            buffer.append(String.format("%s -> %s\n", vertices.get(0), vertices.get(1)));
+        }
+
+        return buffer.toString();
     }
 }

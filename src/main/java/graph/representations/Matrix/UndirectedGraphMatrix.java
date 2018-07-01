@@ -2,9 +2,11 @@ package graph.representations.Matrix;
 
 import graph.shared.Edge;
 
+import java.util.List;
+
 public class UndirectedGraphMatrix<V, E> extends GraphMatrix<V, E> {
-    public UndirectedGraphMatrix(int dimensionSize) {
-        super(dimensionSize);
+    public UndirectedGraphMatrix() {
+        super();
     }
 
     @Override
@@ -27,5 +29,16 @@ public class UndirectedGraphMatrix<V, E> extends GraphMatrix<V, E> {
                 return edge;
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder buffer = new StringBuilder();
+        for (Edge<V, E> edge : getEdges()) {
+            List<String> vertices = endVertices(edge.getLabel());
+            buffer.append(String.format("%s -- %s\n", vertices.get(0), vertices.get(1)));
+        }
+
+        return buffer.toString();
     }
 }
