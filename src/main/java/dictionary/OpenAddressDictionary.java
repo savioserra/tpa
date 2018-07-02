@@ -1,12 +1,15 @@
 package dictionary;
 
 import dictionary.engine.HashEngine;
-import dictionary.structures.Map;
-import dictionary.structures.Node;
+import dictionary.shared.Map;
+import dictionary.shared.Node;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class OpenAddressDictionary<K, V> extends Map<K, V> {
     private Node<K, V>[] nodesArray;
@@ -33,7 +36,7 @@ public class OpenAddressDictionary<K, V> extends Map<K, V> {
         return -1;
     }
 
-    private int getNodePosition(K key, Node<K,V>[] nodesArray) {
+    private int getNodePosition(K key, Node<K, V>[] nodesArray) {
         return travelArray(compressHash(resolveHash(key)), nodesArray, node -> node != null && key.equals(node.getKey()));
     }
 
@@ -58,6 +61,21 @@ public class OpenAddressDictionary<K, V> extends Map<K, V> {
         int newSize = size < 0 ? 0 : size;
         nodesArray = new Node[newSize];
         currentSize = 0;
+    }
+
+    @Override
+    public List<V> values() {
+        return Arrays.stream(nodesArray)
+                .filter(Objects::nonNull)
+                .map(Node::getValue)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<K> keys() {
+        return Arrays.stream(nodesArray)
+                .map(Node::getKey)
+                .collect(Collectors.toList());
     }
 
     @Override

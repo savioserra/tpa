@@ -30,6 +30,9 @@ public class LinkedDictionaryTest {
 
         dictionary.add("3", 3); // resize() ocorre aqui
         assertEquals(3, (int) dictionary.get("3"));
+
+        System.out.println(dictionary.values());
+        System.out.println(dictionary.keys());
     }
 
     @Test

@@ -1,13 +1,15 @@
 package dictionary;
 
 
-import dictionary.engine.EngineFactory;
 import dictionary.engine.HashEngine;
-import dictionary.structures.Map;
-import dictionary.structures.Node;
+import dictionary.shared.Map;
+import dictionary.shared.Node;
 
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /**
  * Representa um dicionário de dados composto por um vetor de {@link LinkedList}.
@@ -37,6 +39,21 @@ public class LinkedDictionary<K, V> extends Map<K, V> {
             listsArray[i] = new LinkedList<>();
 
         currentSize = 0;
+    }
+
+    @Override
+    public List<V> values() {
+        return Arrays.stream(listsArray)
+                .flatMap(nodes -> nodes.stream().map(Node::getValue))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<K> keys() {
+        return Arrays.stream(listsArray)
+                .map(LinkedList::stream)
+                .flatMap(nodeStream -> nodeStream.map(Node::getKey))
+                .collect(Collectors.toList());
     }
 
     protected int resolveHash(K key) {

@@ -1,4 +1,4 @@
-package graph.representations.Matrix;
+package graph.representations.matrix;
 
 import graph.shared.Edge;
 import graph.shared.Graph;
@@ -8,10 +8,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class GraphMatrix<V, E> implements Graph<V, E> {
+public abstract class GraphMatrix<V, E> extends Graph<V, E> {
     protected Edge<V, E>[][] matrix;
     private LinkedList<Vertex<V>> vertices;
     private LinkedList<Edge<V, E>> edges;
+    private LinkedList<Vertex<V>> deleted;
     private int verticesIdCounter;
 
     @SuppressWarnings("unchecked")
@@ -19,6 +20,7 @@ public abstract class GraphMatrix<V, E> implements Graph<V, E> {
         matrix = new Edge[10][10];
         vertices = new LinkedList<>();
         edges = new LinkedList<>();
+        deleted = new LinkedList<>();
         verticesIdCounter = 0;
     }
 
@@ -74,40 +76,26 @@ public abstract class GraphMatrix<V, E> implements Graph<V, E> {
 
     @Override
     public String opposite(String vertexLabel, String edgeLabel) {
-        Vertex<V> vertexOrigin = findVertexByLabel(vertexLabel);
         Edge<V, E> edge = findEdgeByLabel(edgeLabel);
 
-        if (vertexOrigin != null && edge != null) {
-            if (edge.getDestination().equals(vertexOrigin))
+        if (edge != null) {
+            if (edge.getDestination().getLabel().equals(vertexLabel))
                 return edge.getOrigin().getLabel();
-            if (edge.getOrigin().equals(vertexOrigin))
+            if (edge.getOrigin().getLabel().equals(vertexLabel))
                 return edge.getDestination().getLabel();
         }
         return null;
     }
 
     @Override
-    public List<String> endVertices(String edgeLabel) {
+    public String[] endVertices(String edgeLabel) {
         Edge<V, E> edge = findEdgeByLabel(edgeLabel);
-
-        if (edge != null) {
-            LinkedList<String> vertices = new LinkedList<>();
-
-            vertices.add(edge.getOrigin().getLabel());
-            vertices.add(edge.getDestination().getLabel());
-
-            return vertices;
-        }
-        return null;
+        return edge != null ? new String[]{edge.getOrigin().getLabel(), edge.getDestination().getLabel()} : null;
     }
 
     @Override
     public boolean areAdjacent(String v, String w) {
-        Vertex<V> v1 = findVertexByLabel(v);
-        Vertex<V> v2 = findVertexByLabel(w);
-
-        return (v1 != null && v2 != null) &&
-                (matrix[v1.getPos()][v2.getPos()] != null || matrix[v1.getPos()][v2.getPos()] != null);
+        return findEdgeByVertices(v, w) != null;
     }
 
     @Override
@@ -115,14 +103,16 @@ public abstract class GraphMatrix<V, E> implements Graph<V, E> {
         Vertex<V> local = findVertexByLabel(vertexLabel);
 
         if (local == null) {
-            if (getVertices().size() / getMatrix().length >= 0.75f)
-                resize();
+            local = new Vertex<>(deleted.size() > 0 ? deleted.pop().getPos() : createVertexIndex(), vertexLabel, vertexData);
 
-            local = new Vertex<>(createVertexIndex(), vertexLabel, vertexData);
             getVertices().add(local);
         } else {
             local.setData(vertexData);
         }
+
+        if (getVertices().size() / getMatrix().length >= 0.75f)
+            resize();
+
         return local;
     }
 
@@ -140,6 +130,7 @@ public abstract class GraphMatrix<V, E> implements Graph<V, E> {
             }
 
             getVertices().remove(v);
+            deleted.add(v);
             return v;
         }
         return null;
@@ -150,7 +141,7 @@ public abstract class GraphMatrix<V, E> implements Graph<V, E> {
         Edge<V, E> edge = findEdgeByLabel(edgeLabel);
 
         if (edge != null && edges.contains(edge)) {
-            RemoveMatrizEdge(edge);
+            removeEdgeStrategy(edge);
             getEdges().remove(edge);
 
             return edge;
@@ -182,15 +173,9 @@ public abstract class GraphMatrix<V, E> implements Graph<V, E> {
             local.setData(data);
         }
 
-        InsertMatrizEdge(local);
+        insertEdgeStrategy(local);
         return local;
     }
-
-    protected abstract void InsertMatrizEdge(Edge<V, E> edge);
-
-    protected abstract void RemoveMatrizEdge(Edge<V, E> edge);
-
-    protected abstract Edge<V, E> findEdgeByVertices(String vertexOrigin, String vertexDestination);
 
     protected Vertex<V> findVertexByLabel(String vertexLabel) {
         for (Vertex<V> vertex : getVertices()) {

@@ -1,8 +1,6 @@
-package graph.representations.Matrix;
+package graph.representations.matrix;
 
 import graph.shared.Edge;
-
-import java.util.List;
 
 public class UndirectedGraphMatrix<V, E> extends GraphMatrix<V, E> {
     public UndirectedGraphMatrix() {
@@ -10,13 +8,13 @@ public class UndirectedGraphMatrix<V, E> extends GraphMatrix<V, E> {
     }
 
     @Override
-    protected void InsertMatrizEdge(Edge<V, E> edge) {
+    protected void insertEdgeStrategy(Edge<V, E> edge) {
         getMatrix()[edge.getOrigin().getPos()][edge.getDestination().getPos()] = edge;
         getMatrix()[edge.getDestination().getPos()][edge.getOrigin().getPos()] = edge;
     }
 
     @Override
-    protected void RemoveMatrizEdge(Edge<V, E> edge) {
+    protected void removeEdgeStrategy(Edge<V, E> edge) {
         getMatrix()[edge.getOrigin().getPos()][edge.getDestination().getPos()] = null;
         getMatrix()[edge.getDestination().getPos()][edge.getOrigin().getPos()] = null;
     }
@@ -35,8 +33,8 @@ public class UndirectedGraphMatrix<V, E> extends GraphMatrix<V, E> {
     public String toString() {
         StringBuilder buffer = new StringBuilder();
         for (Edge<V, E> edge : getEdges()) {
-            List<String> vertices = endVertices(edge.getLabel());
-            buffer.append(String.format("%s -- %s\n", vertices.get(0), vertices.get(1)));
+            String[] vertices = endVertices(edge.getLabel());
+            buffer.append(String.format("%s -- %s\n", vertices[0], vertices[1]));
         }
 
         return buffer.toString();
