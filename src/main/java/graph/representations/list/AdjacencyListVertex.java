@@ -1,23 +1,23 @@
 package graph.representations.list;
 
 import dictionary.OpenAddressDictionary;
-import graph.shared.Edge;
-import graph.shared.Vertex;
+import graph.common.Edge;
+import graph.common.Vertex;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class VertexListAdj<V, E> extends Vertex<V> {
-    private OpenAddressDictionary<String, EdgeListAdj<V, E>> incomingEdges;
-    private OpenAddressDictionary<String, EdgeListAdj<V, E>> outgoingEdges;
+class AdjacencyListVertex<V, E> extends Vertex<V> {
+    private OpenAddressDictionary<String, AdjacencyListEdge<V, E>> incomingEdges;
+    private OpenAddressDictionary<String, AdjacencyListEdge<V, E>> outgoingEdges;
 
-    public VertexListAdj(int id, String label, V data) {
+    public AdjacencyListVertex(int id, String label, V data) {
         super(id, label, data);
         initialize();
     }
 
-    public VertexListAdj(int pos, String label) {
+    public AdjacencyListVertex(int pos, String label) {
         super(pos, label);
         initialize();
     }
@@ -61,11 +61,11 @@ public class VertexListAdj<V, E> extends Vertex<V> {
         outgoingEdges.pop(edge);
     }
 
-    public EdgeListAdj<V, E> insertOutgoingEdge(EdgeListAdj<V, E> edgeListAdj) {
-        return outgoingEdges.add(edgeListAdj.getLabel(), edgeListAdj);
+    public AdjacencyListEdge<V, E> insertOutgoingEdge(AdjacencyListEdge<V, E> adjacencyListEdge) {
+        return outgoingEdges.add(adjacencyListEdge.getLabel(), adjacencyListEdge);
     }
 
-    public EdgeListAdj<V, E> insertIncomingEdge(EdgeListAdj<V, E> edgeListAdj) {
-        return incomingEdges.add(edgeListAdj.getLabel(), edgeListAdj);
+    public AdjacencyListEdge<V, E> insertIncomingEdge(AdjacencyListEdge<V, E> adjacencyListEdge) {
+        return incomingEdges.add(adjacencyListEdge.getLabel(), adjacencyListEdge);
     }
 }

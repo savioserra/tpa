@@ -1,4 +1,4 @@
-package dictionary.shared;
+package dictionary.common;
 
 import java.util.function.Consumer;
 

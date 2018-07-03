@@ -1,3 +1,5 @@
+package recursive;
+
 import org.junit.Test;
 import recursive.Recursive;
 

@@ -1,4 +1,4 @@
-package dictionary.shared;
+package dictionary.common;
 
 
 public class Node<K, V> {

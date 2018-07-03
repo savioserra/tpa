@@ -1,8 +1,8 @@
 package dictionary;
 
 import dictionary.engine.HashEngine;
-import dictionary.shared.Map;
-import dictionary.shared.Node;
+import dictionary.common.Map;
+import dictionary.common.Node;
 
 import java.util.Arrays;
 import java.util.List;

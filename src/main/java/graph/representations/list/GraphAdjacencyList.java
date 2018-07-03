@@ -1,15 +1,15 @@
 package graph.representations.list;
 
 import dictionary.OpenAddressDictionary;
-import graph.shared.Edge;
-import graph.shared.Graph;
+import graph.common.Edge;
+import graph.common.Graph;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class GraphAdjacencyList<V, E> extends Graph<V, E> {
-    private OpenAddressDictionary<String, VertexListAdj<V, E>> vertices;
-    private OpenAddressDictionary<String, EdgeListAdj<V, E>> edges;
+abstract class GraphAdjacencyList<V, E> extends Graph<V, E> {
+    private OpenAddressDictionary<String, AdjacencyListVertex<V, E>> vertices;
+    private OpenAddressDictionary<String, AdjacencyListEdge<V, E>> edges;
 
     protected GraphAdjacencyList() {
         vertices = new OpenAddressDictionary<>(10);
@@ -19,7 +19,7 @@ public abstract class GraphAdjacencyList<V, E> extends Graph<V, E> {
     @Override
     public List<String> vertices() {
         return getVertices().values().stream()
-                .map(VertexListAdj::getLabel)
+                .map(AdjacencyListVertex::getLabel)
                 .collect(Collectors.toList());
     }
 
@@ -32,19 +32,19 @@ public abstract class GraphAdjacencyList<V, E> extends Graph<V, E> {
 
     @Override
     public List<String> incomingEdges(String vertexLabel) {
-        VertexListAdj<V, E> vertex = getVertices().get(vertexLabel);
+        AdjacencyListVertex<V, E> vertex = getVertices().get(vertexLabel);
         return vertex != null ? vertex.incomingEdges() : null;
     }
 
     @Override
     public List<String> outgoingEdges(String vertexLabel) {
-        VertexListAdj<V, E> vertex = getVertices().get(vertexLabel);
+        AdjacencyListVertex<V, E> vertex = getVertices().get(vertexLabel);
         return vertex != null ? vertex.outgoingEdges() : null;
     }
 
     @Override
     public String opposite(String vertexLabel, String edgeLabel) {
-        EdgeListAdj<V, E> edge = findEdgeByLabel(edgeLabel);
+        AdjacencyListEdge<V, E> edge = findEdgeByLabel(edgeLabel);
 
         if (edge != null) {
             if (edge.getOrigin().getLabel().equals(vertexLabel))
@@ -58,37 +58,37 @@ public abstract class GraphAdjacencyList<V, E> extends Graph<V, E> {
 
     @Override
     public String[] endVertices(String edgeLabel) {
-        EdgeListAdj<V, E> edge = edges.get(edgeLabel);
+        AdjacencyListEdge<V, E> edge = edges.get(edgeLabel);
         return edge != null ? new String[]{edge.getOrigin().getLabel(), edge.getDestination().getLabel()} : null;
     }
 
     @Override
-    public boolean areAdjacent(String vertexLabelOne, String vertexLabelTwo) {
-        return findEdgeByVertices(vertexLabelOne, vertexLabelTwo) != null;
+    public boolean areAdjacent(String vertexOrigin, String vertexDestination) {
+        return findEdgeByVertices(vertexOrigin, vertexDestination) != null;
     }
 
     @Override
-    public VertexListAdj<V, E> insertVertex(String vertexLabel, V vertexData) {
-        VertexListAdj<V, E> vertex = findVertexByLabel(vertexLabel);
+    public AdjacencyListVertex<V, E> insertVertex(String vertexLabel, V vertexData) {
+        AdjacencyListVertex<V, E> vertex = findVertexByLabel(vertexLabel);
 
         if (vertex != null)
             vertex.setData(vertexData);
         else {
-            vertex = new VertexListAdj<>(0, vertexLabel, vertexData);
+            vertex = new AdjacencyListVertex<>(0, vertexLabel, vertexData);
             vertices.add(vertexLabel, vertex);
         }
         return vertex;
     }
 
     @Override
-    public VertexListAdj<V, E> removeVertex(String vertexLabel) {
+    public AdjacencyListVertex<V, E> removeVertex(String vertexLabel) {
         return getVertices().pop(vertexLabel);
     }
 
     @Override
-    public EdgeListAdj<V, E> insertEdge(String edgeLabel, String vertexLabelOrigin, String vertexLabelDestination, E data) throws Exception {
-        VertexListAdj<V, E> vertexOrigin = findVertexByLabel(vertexLabelOrigin);
-        VertexListAdj<V, E> vertexDestination = findVertexByLabel(vertexLabelDestination);
+    public AdjacencyListEdge<V, E> insertEdge(String edgeLabel, String vertexLabelOrigin, String vertexLabelDestination, E data) throws Exception {
+        AdjacencyListVertex<V, E> vertexOrigin = findVertexByLabel(vertexLabelOrigin);
+        AdjacencyListVertex<V, E> vertexDestination = findVertexByLabel(vertexLabelDestination);
 
         if (vertexOrigin == null || vertexDestination == null)
             throw new Exception(
@@ -96,11 +96,10 @@ public abstract class GraphAdjacencyList<V, E> extends Graph<V, E> {
                             "Did you forget to add the vertices?", vertexOrigin, vertexDestination)
             );
 
-        EdgeListAdj<V, E> local = (EdgeListAdj<V, E>) findEdgeByVertices(vertexLabelOrigin, vertexLabelDestination);
+        AdjacencyListEdge<V, E> local = findEdgeByLabel(edgeLabel);
 
         if (local == null) {
-            local = new EdgeListAdj<>(edgeLabel, vertexOrigin, vertexDestination, data);
-            getEdges().add(edgeLabel, local);
+            local = new AdjacencyListEdge<>(edgeLabel, vertexOrigin, vertexDestination, data);
         } else {
             removeEdge(edgeLabel);
 
@@ -109,13 +108,14 @@ public abstract class GraphAdjacencyList<V, E> extends Graph<V, E> {
             local.setData(data);
         }
 
+        getEdges().add(edgeLabel, local);
         insertEdgeStrategy(local);
         return local;
     }
 
     @Override
-    public EdgeListAdj<V, E> removeEdge(String edgeLabel) {
-        for (VertexListAdj<V, E> vertex : getVertices().values()) {
+    public AdjacencyListEdge<V, E> removeEdge(String edgeLabel) {
+        for (AdjacencyListVertex<V, E> vertex : getVertices().values()) {
             vertex.removeEdge(edgeLabel);
         }
 
@@ -123,20 +123,20 @@ public abstract class GraphAdjacencyList<V, E> extends Graph<V, E> {
     }
 
     @Override
-    protected VertexListAdj<V, E> findVertexByLabel(String vertexLabel) {
+    protected AdjacencyListVertex<V, E> findVertexByLabel(String vertexLabel) {
         return getVertices().get(vertexLabel);
     }
 
     @Override
-    protected EdgeListAdj<V, E> findEdgeByLabel(String edgeLabel) {
+    protected AdjacencyListEdge<V, E> findEdgeByLabel(String edgeLabel) {
         return getEdges().get(edgeLabel);
     }
 
-    protected OpenAddressDictionary<String, VertexListAdj<V, E>> getVertices() {
+    protected OpenAddressDictionary<String, AdjacencyListVertex<V, E>> getVertices() {
         return vertices;
     }
 
-    protected OpenAddressDictionary<String, EdgeListAdj<V, E>> getEdges() {
+    protected OpenAddressDictionary<String, AdjacencyListEdge<V, E>> getEdges() {
         return edges;
     }
 }

@@ -1,6 +1,6 @@
 package graph.representations.matrix;
 
-import graph.shared.Edge;
+import graph.common.Edge;
 
 public class DirectedGraphMatrix<V, E> extends GraphMatrix<V, E> {
     public DirectedGraphMatrix() {

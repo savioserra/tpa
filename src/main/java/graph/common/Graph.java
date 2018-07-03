@@ -1,4 +1,4 @@
-package graph.shared;
+package graph.common;
 
 
 import java.util.List;
@@ -37,7 +37,9 @@ public abstract class Graph<VertexDataType, EdgeDataType> {
     /**
      * Tests whether vertices v and w are adjacent.
      */
-    public abstract boolean areAdjacent(String vertexLabelOne, String vertexLabelTwo);
+    public boolean areAdjacent(String vertexOrigin, String vertexDestination) {
+        return findEdgeByVertices(vertexOrigin, vertexDestination) != null;
+    }
 
     /**
      * Inserts a vertex into the graph structure.
@@ -61,13 +63,27 @@ public abstract class Graph<VertexDataType, EdgeDataType> {
      */
     public abstract Edge<VertexDataType, EdgeDataType> removeEdge(String edgeLabel);
 
+    /**
+     * Retrieves an edge matching given endpoints; null otherwise.
+     */
     protected abstract Edge<VertexDataType, EdgeDataType> findEdgeByVertices(String vertexOrigin, String vertexDestination);
 
+    /**
+     * Retrieves a vertex matching the given label.
+     */
     protected abstract Vertex<VertexDataType> findVertexByLabel(String vertexLabel);
 
+    /**
+     * Retrieves an edge matching the given label.
+     */
     protected abstract Edge<VertexDataType, EdgeDataType> findEdgeByLabel(String edgeLabel);
 
+    /**
+     * Executes the insert operation of an edge on the underlying graph.
+     */
     protected abstract void insertEdgeStrategy(Edge<VertexDataType, EdgeDataType> edge);
 
     protected abstract void removeEdgeStrategy(Edge<VertexDataType, EdgeDataType> edge);
+
+    public abstract String toString();
 }

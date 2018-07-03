@@ -1,8 +1,8 @@
 package graph.representations.matrix;
 
-import graph.shared.Edge;
-import graph.shared.Graph;
-import graph.shared.Vertex;
+import graph.common.Edge;
+import graph.common.Graph;
+import graph.common.Vertex;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -94,11 +94,6 @@ public abstract class GraphMatrix<V, E> extends Graph<V, E> {
     }
 
     @Override
-    public boolean areAdjacent(String v, String w) {
-        return findEdgeByVertices(v, w) != null;
-    }
-
-    @Override
     public Vertex<V> insertVertex(String vertexLabel, V vertexData) {
         Vertex<V> local = findVertexByLabel(vertexLabel);
 
@@ -160,11 +155,10 @@ public abstract class GraphMatrix<V, E> extends Graph<V, E> {
                             "Did you forget to add the vertices?", vertexOrigin, vertexDestination)
             );
 
-        Edge<V, E> local = findEdgeByVertices(vertexLabelOrigin, vertexLabelDestination);
+        Edge<V, E> local = findEdgeByLabel(edgeLabel);
 
         if (local == null) {
             local = new Edge<>(edgeLabel, vertexOrigin, vertexDestination, data);
-            getEdges().add(local);
         } else {
             removeEdge(edgeLabel);
 
@@ -173,6 +167,7 @@ public abstract class GraphMatrix<V, E> extends Graph<V, E> {
             local.setData(data);
         }
 
+        getEdges().add(local);
         insertEdgeStrategy(local);
         return local;
     }

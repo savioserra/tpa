@@ -1,4 +1,4 @@
-package dictionary.shared;
+package dictionary.common;
 
 import dictionary.engine.EngineFactory;
 import dictionary.engine.HashEngine;
